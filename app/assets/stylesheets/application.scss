@@ -16,3 +16,12 @@
 
  @import "bootstrap-sprockets";
  @import "bootstrap";
+
+.box-highlight {
+    width: 33%;
+    min-height: 10rem;
+    margin: auto;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    padding: 3rem;
+}

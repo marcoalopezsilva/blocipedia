@@ -5,12 +5,15 @@ source 'https://rubygems.org'
    "https://github.com/#{repo_name}.git"
  end
 
+#Devise
+gem 'devise'
+
  # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
  gem 'rails', '~> 5.1.2'
 
  group :production do
    # Use pg as the production database for Active Record
-   gem 'pg'
+   gem 'sqlite3'
  end
 
  group :development do
