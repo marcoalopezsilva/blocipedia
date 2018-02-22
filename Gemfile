@@ -43,3 +43,10 @@ gem 'devise'
  end
 
 gem 'bootstrap-sass'
+
+# This block adds rspec to the development and test groups
+ group :development, :test do
+     gem 'rspec-rails', '~> 3.0'
+     gem 'rails-controller-testing'
+     gem 'shoulda'
+ end
