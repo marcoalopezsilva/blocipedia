@@ -1,0 +1,38 @@
+<%= form_with(model: wiki, local: true) do |form| %>
+  <% if wiki.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(wiki.errors.count, "error") %> prohibited this wiki from being saved:</h2>
+
+      <ul>
+      <% wiki.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, id: :wiki_title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :body %>
+    <%= form.text_area :body, id: :wiki_body %>
+  </div>
+
+  <div class="field">
+    <%= form.label :private %>
+    <%= form.check_box :private, id: :wiki_private %>
+  </div>
+
+  <!-- I commented-out this block so user doesn't need to input his/her id-->
+  <!--div class="field">
+    <%= form.label :user_id %>
+    <%= form.text_field :user_id, id: :wiki_user_id %>
+  </div-->
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
