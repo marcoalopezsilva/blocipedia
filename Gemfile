@@ -5,10 +5,10 @@ source 'https://rubygems.org'
    "https://github.com/#{repo_name}.git"
  end
 
-#Devise and figaro
-
+#Required gems for Blocipedia
 gem 'devise'
 gem 'figaro', '1.0'
+gem 'pundit'
  # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
  gem 'rails', '~> 5.1.2'
 
