@@ -62,6 +62,8 @@ GEM
     erubi (1.7.0)
     eventmachine (1.2.5)
     execjs (2.7.0)
+    faker (1.8.7)
+      i18n (>= 0.7)
     ffi (1.9.21)
     figaro (1.0.0)
       thor (~> 0.14)
@@ -109,8 +111,6 @@ GEM
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
     puma (3.11.2)
-    pundit (1.1.0)
-      activesupport (>= 3.0.0)
     rack (2.0.4)
     rack-protection (2.0.1)
       rack
@@ -234,13 +234,13 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass
   devise
+  faker
   figaro (= 1.0)
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
   mailcatcher
   puma (~> 3.0)
-  pundit
   rails (~> 5.1.2)
   rails-controller-testing
   rspec-rails (~> 3.0)
