@@ -1,4 +1,3 @@
-<!--p id="notice"><%= notice %></p-->
 
 <h1>Wikis</h1>
 
@@ -21,14 +20,16 @@
         <td><%= wiki.private %></td>
         <td><%= wiki.user.email %></td>
         <td><%= link_to 'Show', wiki %></td>
-        <% if user_can_edit?(wiki) %>
+        <% if policy(wiki).update? %>
           <td><%= link_to 'Edit', edit_wiki_path(wiki) %></td>
+          <% else %>
+          <td> </td>
+        <% end %>
+        <% if policy(wiki).destroy? %>
           <td><%= link_to 'Destroy', wiki, method: :delete, data: { confirm: 'Are you sure?' } %></td>
           <% else %>
           <td> </td>
-          <td> </td>
         <% end %>
-
       </tr>
     <% end %>
   </tbody>

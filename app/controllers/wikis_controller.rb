@@ -44,6 +44,7 @@ class WikisController < ApplicationController
   # PATCH/PUT /wikis/1
   # PATCH/PUT /wikis/1.json
   def update
+    authorize @wiki
     respond_to do |format|
       if @wiki.update(wiki_params)
         format.html { redirect_to @wiki, notice: 'Wiki was successfully updated.' }
@@ -59,14 +60,14 @@ class WikisController < ApplicationController
   # DELETE /wikis/1
   # DELETE /wikis/1.json
   def destroy
+    #Next line consults WikiPolicy's destroy? method ("autorizes current_user") before continuing
+    authorize @wiki
     @wiki.destroy
-    respond_to do |format|
-      format.html { redirect_to wikis_url, notice: 'Wiki was successfully destroyed.' }
-      #format.json { head :no_content }
-    end
+    redirect_to wikis_url, notice: 'Wiki was successfully destroyed.'
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_wiki
       @wiki = Wiki.find(params[:id])
