@@ -1,0 +1,79 @@
+class ChargesController < ApplicationController
+  def new
+  end
+
+  def create
+    # Amount in cents
+    @amount = 1500
+
+    customer = Stripe::Customer.create(
+      :email => params[:stripeEmail],
+      :source  => params[:stripeToken]
+    )
+
+    current_user.stripe_id = customer.id
+
+    charge = Stripe::Charge.create(
+      :customer    => customer.id,
+      :amount      => @amount,
+      :description => 'Rails Stripe customer',
+      :currency    => 'usd'
+    )
+
+    current_user.role = 'premium'
+    current_user.save!
+
+  rescue Stripe::CardError => e
+    flash[:error] = e.message
+    redirect_to new_charge_path
+  end
+
+  def destroy
+    customer = Stripe::Customer.retrieve(current_user.stripe_id)
+    if customer.delete
+      flash[:notice] = "\"#{current_user.email}\" was downgraded to standard successfully."
+      current_user.role = 'standard'
+      current_user.save!
+      redirect_to new_charge_path
+    else
+      flash.now[:alert] = "There was an error downgrading the user."
+      redirect_to new_charge_path
+    end
+  end
+
+end
+
+------
+<% if current_user.standard? %>
+  <h3>Sign up for a premium Blocipedia Account. For $15, get more out of your favorite website!</h3>
+
+  <%= form_tag charges_path do %>
+    <article>
+      <% if flash[:error].present? %>
+        <div id="error_explanation">
+          <p><%= flash[:error] %></p>
+        </div>
+      <% end %>
+      <label class="amount">
+        <span>Amount: $15.00</span>
+      </label>
+    </article>
+
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+            data-description="Premium subscription"
+            data-amount="1500"
+            data-locale="auto"></script>
+    <% end %>
+<% elsif current_user.premium? %>
+  <h3>Follow the link below to downgrade your account to standard.</h3>
+  <%= link_to "Downgrade Account", @charge, method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to downgrade your account?'} %>
+<% end %>
+
+-------
+
++        <% if current_user && current_user.standard? %>
++          <li><%= link_to "Upgrade", new_charge_path %></li>
++        <% elsif current_user && current_user.premium? %>
++          <li><%= link_to "Downgrade", new_charge_path %></li>
++        <% end %>
