@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get 'welcome/about'
 
   # Next line routes all unknown paths to welcome#index
-  get '*path', to: 'welcome#index'
+  #get '*path', to: 'welcome#index'
 
   resources :charges, only: [:new, :create]
 
