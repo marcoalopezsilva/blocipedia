@@ -1,6 +1,9 @@
 
 <h1>Wikis</h1>
 
+<%= link_to 'New Wiki', new_wiki_path, class: 'btn btn-default pull-right btn-margin' %>
+
+
 <table class="table table-bordered table-hover">
   <thead >
     <tr class="bg-primary">
@@ -23,12 +26,12 @@
         <% if policy(wiki).update? %>
           <td><%= link_to 'Edit', edit_wiki_path(wiki) %></td>
           <% else %>
-          <td> </td>
+          <td></td>
         <% end %>
         <% if policy(wiki).destroy? %>
           <td><%= link_to 'Destroy', wiki, method: :delete, data: { confirm: 'Are you sure?' } %></td>
           <% else %>
-          <td> </td>
+          <td></td>
         <% end %>
       </tr>
     <% end %>
@@ -36,5 +39,3 @@
 </table>
 
 <br>
-
-<%= link_to 'New Wiki', new_wiki_path %>

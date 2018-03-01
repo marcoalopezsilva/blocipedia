@@ -10,6 +10,9 @@ source 'https://rubygems.org'
     gem 'figaro', '1.0'
     gem 'faker'
 
+    #Stripe needed for charges
+    gem 'stripe'
+
     #Introduce pundit for authorizations
     gem 'pundit'
     # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

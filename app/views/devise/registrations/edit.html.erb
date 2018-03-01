@@ -1,4 +1,4 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h3>Edit <%= resource_name.to_s.humanize %> info</h3>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
@@ -32,12 +32,21 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Update" %>
+    <%= f.submit "Update", class: 'btn btn-success' %>
   </div>
 <% end %>
 
-<h3>Cancel my account</h3>
+<% if !current_user.premium? %>
+    <%= render partial: 'charges/premium_button', locals: { stripe_btn_data: @stripe_btn_data } %>
+<% end %>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<% if current_user.premium? %>
+    <h3>Downgrade your account to Standard</h3>
+        <%= link_to 'Downgrade', users_downgrade_path(current_user), method: :patch, class: 'btn btn-info' %>
+<% end %>
+
+<h3>Cancel your account</h3>
+
+<p>Unhappy? <%= button_to "Cancel account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %></p>
 
 <%= link_to "Back", :back %>
