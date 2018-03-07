@@ -15,6 +15,13 @@ require 'faker'
       user.role = :admin
     end
 
+    User.find_or_create_by!(email: 'marcoalopezsilva@gmail.com') do |user|
+      user.password = 'helloworld'
+      user.password_confirmation= 'helloworld'
+      user.skip_confirmation!
+      user.role = :premium
+    end
+
   #Create random users
   3.times do
     user = User.new(

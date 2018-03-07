@@ -21,10 +21,12 @@
     <%= form.text_area :body, id: :wiki_body %>
   </div>
 
-  <div class="field">
-    <%= form.label :private %>
-    <%= form.check_box :private, id: :wiki_private %>
-  </div>
+  <% if current_user.admin? || current_user.premium? %>
+      <div class="field">
+        <%= form.label :private %>
+        <%= form.check_box :private, id: :wiki_private %>
+      </div>
+  <% end %>
 
   <!-- I commented-out this block so user doesn't need to input his/her id-->
   <!--div class="field">
