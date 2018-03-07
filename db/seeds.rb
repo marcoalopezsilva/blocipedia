@@ -43,6 +43,16 @@ require 'faker'
     )
   end
 
+  #Create test markdown-ed wiki
+  wiki = Wiki.create!(
+    user: User.all.sample,
+    title: "This is a Wiki to try markdown",
+    body:   %Q{### There Is Something You Should Know!
+            This is my very first post using markdown!
+            How do you like it?  I learned this from [RichOnRails.com](http://richonrails.com/articles/rendering-markdown-with-redcarpet)!} ,
+    private: false
+  )
+
 puts "Seed finished"
 puts "#{User.count} users created"
 puts "#{Wiki.count} wikis created"

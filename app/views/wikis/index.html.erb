@@ -21,8 +21,8 @@
       <tr>
         <% if !wiki.private || ( wiki.private && policy(wiki).view_private? )%>
             <td><%= index+1 %></td>
-            <td><%= wiki.title %></td>
-            <td><%= wiki.body %></td>
+            <td><%= markdown(wiki.title) %></td>
+            <td><%= markdown(wiki.body) %></td>
             <% if wiki.private %>
                 <td>Private</td>
                 <% else %>
