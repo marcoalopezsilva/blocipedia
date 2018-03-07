@@ -42,7 +42,7 @@
 
 <% if current_user.premium? %>
     <h3>Downgrade your account to Standard</h3>
-        <%= link_to 'Downgrade', users_downgrade_path(current_user), method: :patch, class: 'btn btn-info' %>
+        <%= link_to 'Downgrade', users_downgrade_path(current_user), method: :patch, class: 'btn btn-info', data: { confirm: 'Are you sure? Your currently-private wikis will become public' } %>
 <% end %>
 
 <h3>Cancel your account</h3>
