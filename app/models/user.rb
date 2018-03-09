@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_many :wikis
 
   after_initialize :init
-  after_update :check_private
+  before_update :publicize, if: :downgraded?
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -19,10 +19,12 @@ private
     self.role ||= :standard
   end
 
-  def check_private
-    if self.standard?
+  def downgraded?
+      self.will_save_change_to_role?(from: :premium, to: :standard)
+  end
+
+  def publicize
       Wiki.where(user_id: self.id, private: true).update_all(private: false)
-    end
   end
 
 end
