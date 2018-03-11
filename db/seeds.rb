@@ -22,6 +22,27 @@ require 'faker'
       user.role = :premium
     end
 
+    User.find_or_create_by!(email: 'marcoalopezsilva2@gmail.com') do |user|
+      user.password = 'helloworld'
+      user.password_confirmation= 'helloworld'
+      user.skip_confirmation!
+      user.role = :premium
+    end
+
+    User.find_or_create_by!(email: 'marcoalopezsilva3@gmail.com') do |user|
+      user.password = 'helloworld'
+      user.password_confirmation= 'helloworld'
+      user.skip_confirmation!
+      user.role = :premium
+    end
+
+    User.find_or_create_by!(email: 'marcoalopezsilva4@gmail.com') do |user|
+      user.password = 'helloworld'
+      user.password_confirmation= 'helloworld'
+      user.skip_confirmation!
+      user.role = :premium
+    end
+
   #Create random users
   3.times do
     user = User.new(
