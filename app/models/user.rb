@@ -1,7 +1,11 @@
 class User < ApplicationRecord
 
+  #Associations
   has_many :wikis
+  has_many :collaborators
+  has_many :shared_wikis, through: :collaborators, source: :wiki
 
+  #Callbacks
   after_initialize :init
   after_update :publicize, if: :downgraded?
 
