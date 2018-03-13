@@ -1,0 +1,8 @@
+<div>
+    <p class="bold">Add Collaborators</p>
+    <%= collection_check_boxes(:wiki, :user_ids, User.all, :id, :email) do |collab| %>
+        <!-- PENDING: REMOVE CURRENT USER FROM LIST! -->
+        <%= collab.check_box %>
+        <%= collab.label(class: "non-bold")%></br>
+    <% end %>
+</div>

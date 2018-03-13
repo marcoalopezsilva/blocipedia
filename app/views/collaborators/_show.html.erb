@@ -1,0 +1,11 @@
+<div>
+    <% if wiki.collaborators.any? %>
+        <% wiki.collaborators.each do |col| %>
+            <ul>
+            <li><%= User.find(col.user_id).email %></li>
+            </ul>
+        <% end %>
+    <% else %>
+        <p>No collaborators for this Wiki yet</p>
+    <% end %>
+</div>

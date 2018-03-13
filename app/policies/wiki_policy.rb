@@ -13,9 +13,9 @@ class WikiPolicy < ApplicationPolicy
         record.private == false || record.private && user.id == record.user_id || user.admin?
     end
 
-    def view_private?
-        user.admin? || ( user.premium? && user.id == record.user_id )
-    end
+    #def view_private?
+        #user.admin? || ( user.premium? && user.id == record.user_id )
+    #end
 
     #---- Pundit's scope
     class Scope
@@ -26,6 +26,7 @@ class WikiPolicy < ApplicationPolicy
        @scope = scope
      end
 
+     #PENDING: ENSURE THAT COLLABORATORS ARE SHOWN WIKIS IF THEY ARE STANDARD!! 
      def resolve
        wikis = []
        if user.admin?
@@ -33,7 +34,7 @@ class WikiPolicy < ApplicationPolicy
      elsif user.premium?
          all_wikis = scope.all
          all_wikis.each do |wiki|
-           if wiki.private == false || wiki.user_id == user || wiki.collaborators.include?(user)
+           if !wiki.private || wiki.user_id == user.id || wiki.collaborators.include?(user.id)
              wikis << wiki # if the user is premium, only show them public wikis, or that private wikis they created, or private wikis they are a collaborator on
            end
          end
@@ -41,7 +42,7 @@ class WikiPolicy < ApplicationPolicy
          all_wikis = scope.all
          wikis = []
          all_wikis.each do |wiki|
-           if wiki.private == false || wiki.collaborators.include?(user)
+           if !wiki.private || wiki.collaborators.include?(user.id)
              wikis << wiki # only show standard users public wikis and private wikis they are a collaborator on
            end
          end

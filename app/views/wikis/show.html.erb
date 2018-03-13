@@ -12,13 +12,19 @@
 
 <p>
   <strong>Private:</strong>
-  <%= @wiki.private %>
+  <%= "Yes" if @wiki.private %>
+  <%= "No" if !@wiki.private %>
 </p>
 
 <p>
-  <strong>User: </strong>
+  <strong>Created by user: </strong>
   <!--%= @wiki.user %-->
   <%= @wiki.user.email %>
+</p>
+
+<p>
+    <strong>Collaborators: </strong>
+    <%= render partial: 'collaborators/show', locals: {wiki: @wiki} %>
 </p>
 
 <%= link_to 'Edit', edit_wiki_path(@wiki) %> |
