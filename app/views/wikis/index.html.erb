@@ -17,29 +17,28 @@
   </thead>
 
   <tbody>
-    <% @wikis.each_with_index do |wiki, index| %>
+    <!-- Next block takes 'wikis' from wikis_controller index method -->
+    <% @wikis.each do |wiki| %>
       <tr>
-        <% if !wiki.private || ( wiki.private && policy(wiki).view_private? )%>
-            <td><%= index+1 %></td>
-            <td><%= markdown(wiki.title) %></td>
-            <td><%= markdown(wiki.body) %></td>
-            <% if wiki.private %>
-                <td>Private</td>
-                <% else %>
-                <td>Public</td>
-            <% end %>
-            <td><%= wiki.user.email %></td>
-            <td><%= link_to 'Show', wiki %></td>
-            <% if policy(wiki).update? %>
-              <td><%= link_to 'Edit', edit_wiki_path(wiki) %></td>
-              <% else %>
-              <td></td>
-            <% end %>
-            <% if policy(wiki).destroy? %>
-              <td><%= link_to 'Destroy', wiki, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-              <% else %>
-              <td></td>
-            <% end %>
+        <td><%= wiki.id %></td>
+        <td><%= markdown(wiki.title) %></td>
+        <td><%= markdown(wiki.body) %></td>
+        <% if wiki.private %>
+          <td>Yes</td>
+        <% else %>
+          <td>No</td>
+        <% end %>
+        <td><%= wiki.user.email %></td>
+        <td><%= link_to 'Show', wiki %></td>
+        <% if policy(wiki).update? %>
+          <td><%= link_to 'Edit', edit_wiki_path(wiki) %></td>
+        <% else %>
+          <td>.....</td>
+        <% end %>
+        <% if policy(wiki).destroy? %>
+          <td><%= link_to 'Destroy', wiki, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% else %>
+          <td>.....</td>
         <% end %>
       </tr>
     <% end %>

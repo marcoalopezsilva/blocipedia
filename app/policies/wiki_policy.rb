@@ -4,51 +4,40 @@ class WikiPolicy < ApplicationPolicy
     # So, we can simply refer to 'user'
     # Also, wen the methods refer to 'record', Pundit uses the object that the HTML refers to
     def destroy?
-        #true if user.admin? || user.id == record.user_id
+        #Only admin users, or a wiki's original creator, will be able to destroy it
         user.admin? || user.id == record.user_id
     end
 
     def update?
-        #true if record.private == false || record.private == true && user.id == record.user_id || user.admin?
-        record.private == false || record.private && user.id == record.user_id || user.admin?
+      #This is because the scope already shows the user only those private Wikis  which she is authorized to see (and, therefore, edit)
+      true
     end
-
-    #def view_private?
-        #user.admin? || ( user.premium? && user.id == record.user_id )
-    #end
 
     #---- Pundit's scope
     class Scope
-     attr_reader :user, :scope
 
-     def initialize(user, scope)
-       @user = user
-       @scope = scope
-     end
+      attr_reader :user, :scope
 
-     #PENDING: ENSURE THAT COLLABORATORS ARE SHOWN WIKIS IF THEY ARE STANDARD!! 
-     def resolve
-       wikis = []
-       if user.admin?
-         wikis = scope.all # if the user is an admin, show them all the wikis
-     elsif user.premium?
-         all_wikis = scope.all
-         all_wikis.each do |wiki|
-           if !wiki.private || wiki.user_id == user.id || wiki.collaborators.include?(user.id)
-             wikis << wiki # if the user is premium, only show them public wikis, or that private wikis they created, or private wikis they are a collaborator on
-           end
-         end
-       else # this is the lowly standard user
-         all_wikis = scope.all
-         wikis = []
-         all_wikis.each do |wiki|
-           if !wiki.private || wiki.collaborators.include?(user.id)
-             wikis << wiki # only show standard users public wikis and private wikis they are a collaborator on
-           end
-         end
-       end
-       wikis # return the wikis array we've built up
-     end
-   end
+      def initialize(user, scope)
+        @user = user
+        @scope = scope
+      end
+
+      def resolve
+        if @user.admin?
+          #Show all wikis to admins
+          return @scope.all
+        elsif @user.premium?
+          #To premium users, show: their own wikis, plus public wikis which are not theirs (to avodi duplicating)
+          return @scope.where(user_id: @user.id) + @scope.where(private: false).where.not(user_id: @user.id)
+        elsif @user.standard?
+          #To standard users, show: wikis in which they are collaborators, plus any public wikis
+          return @scope.joins(:collaborators).where(collaborators: {user_id: @user.id}) + @scope.where(private: false)
+        else
+          return @scope.none
+        end
+      end
+
+    end
 
 end
