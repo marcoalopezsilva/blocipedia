@@ -5,7 +5,7 @@ class WikisController < ApplicationController
   # GET /wikis.json
   def index
     #@wikis = Wiki.all
-    @wikis = policy_scope(Wiki)
+    @wikis = policy_scope(Wiki).order(:id)
   end
 
   # GET /wikis/1
