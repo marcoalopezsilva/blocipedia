@@ -20,8 +20,8 @@ source 'https://rubygems.org'
     gem 'rails', '~> 5.1.2'
 
     group :production do
-      # Use pg as the production database for Active Record
-      gem 'sqlite3'
+        gem 'pg', '0.17.1'
+        gem 'rails_12factor', '0.0.2'
     end
 
     group :development do
